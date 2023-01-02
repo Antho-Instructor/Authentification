@@ -1,7 +1,29 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import instanceAxios from "../services/axios";
 
 export default function Signin() {
+  /**
+   * La fonction handleSubmit permet qu'une fois le formulaire complété de faire appel a axios pour envoyer les informations de l'utilisateur vers le backend ainsi que de sauvegarder le nouvel utilisateur
+   */
+
+  const navigate = useNavigate();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { name, email, password } = e.target.elements;
+    instanceAxios
+      .post("/auth/register", {
+        name: name.value,
+        email: email.value,
+        password: password.value,
+      })
+      .then((res) => {
+        console.warn(res.data);
+        navigate("/");
+      })
+      .catch((err) => console.error(err));
+  };
+
   return (
     <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -17,7 +39,7 @@ export default function Signin() {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form className="space-y-6" action="#" method="POST">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label
                 htmlFor="name"
@@ -78,13 +100,13 @@ export default function Signin() {
             </div>
 
             <div>
-              <Link
+              <button
                 to="/"
                 type="submit"
                 className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               >
                 Go 🚀
-              </Link>
+              </button>
             </div>
           </form>
 
