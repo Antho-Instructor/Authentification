@@ -61,3 +61,13 @@ Nous devons faire le lien entre frontend/backend avec l'authentification, c'est 
 -   Les routes doivent être sécurisées (si pas authentifié, on ne peut pas accéder à la route):
     -   `/home`
     -   `/books`
+
+## ⚙️ Backend
+
+### 1. Création de la base de données
+
+Nous devons avant tout créer la DB, pour cela, nous allons utiliser MySQL.
+
+```sql
+CREATE DATABASE bibli_en_tech;
+```
