@@ -1,7 +1,9 @@
-import { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Fragment, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { AuthContext } from "../context/AuthContext";
+import instance from "../services/axios";
 
 const navigation = [
   { name: "Accueil", href: "/home", current: true },
@@ -13,8 +15,14 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
+  const navigate = useNavigate();
+  const { logout } = useContext(AuthContext);
+
   const handleLogout = () => {
-    console.warn("click");
+    instance.get("/auth/logout").then(() => {
+      logout();
+      navigate("/");
+    });
   };
 
   return (

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import instanceAxios from "../services/axios";
+import instance from "../services/axios";
 import { AuthContext } from "../context/AuthContext";
 
 export default function Login() {
@@ -10,7 +10,7 @@ export default function Login() {
     event.preventDefault();
 
     const { email, password } = event.target.elements;
-    instanceAxios
+    instance
       .post("/auth/login", {
         email: email.value,
         password: password.value,

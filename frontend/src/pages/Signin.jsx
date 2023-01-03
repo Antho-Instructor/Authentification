@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import instanceAxios from "../services/axios";
+import instance from "../services/axios";
 
 export default function Signin() {
   /**
@@ -11,7 +11,7 @@ export default function Signin() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const { name, email, password } = e.target.elements;
-    instanceAxios
+    instance
       .post("/auth/register", {
         name: name.value,
         email: email.value,

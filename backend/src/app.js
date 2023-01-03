@@ -8,6 +8,7 @@ const routerApp = require("./router/app");
 
 const app = express();
 
+app.use(express.json());
 app.use(cookieParser());
 // use some application-level middlewares
 app.use(
@@ -16,8 +17,6 @@ app.use(
     credentials: true,
   })
 );
-
-app.use(express.json());
 
 // Serve the public folder for public resources
 app.use(express.static(path.join(__dirname, "../public")));

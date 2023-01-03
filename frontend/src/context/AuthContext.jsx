@@ -1,30 +1,23 @@
-import { createContext, useState, useMemo } from "react";
+import { createContext, useMemo } from "react";
 
 export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [isLogin, setIsLogin] = useState(false);
-
   const login = useMemo(
-    () => (userToken) => {
-      setIsLogin(true);
-      sessionStorage.setItem("token", userToken);
+    () => () => {
+      sessionStorage.setItem("logged_user", true);
     },
     []
   );
 
   const logout = useMemo(
     () => () => {
-      setIsLogin(false);
-      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("logged_user");
     },
     []
   );
 
-  const value = useMemo(
-    () => ({ login, logout, isLogin }),
-    [login, logout, isLogin]
-  );
+  const value = useMemo(() => ({ login, logout }), [login, logout]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
