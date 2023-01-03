@@ -54,7 +54,7 @@ const login = async (req, res) => {
       }
       // 3 je retourne mon token
       const token = generateToken({ id: user.id, email: user.email });
-      return res.status(200).json({ token });
+      return res.cookie("biblioentech", token).status(200).json({ token });
     })
     .catch((err) => {
       console.error(err);
