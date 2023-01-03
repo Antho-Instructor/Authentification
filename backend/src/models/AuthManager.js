@@ -18,6 +18,20 @@ class AuthManager extends AbstractManager {
       [user.name, user.email, user.password]
     );
   }
+
+  /**
+   * user = {
+   *  email: email@provider.com
+   *  password: secretPassw0rd!
+   * }
+   *
+   */
+  findUser(user) {
+    return this.connection.query(
+      `select * from ${this.table} where email = ?`,
+      [user.email]
+    );
+  }
 }
 
 module.exports = AuthManager;
