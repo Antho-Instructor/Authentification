@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import instanceAxios from "../services/axios";
+import { AuthContext } from "../context/AuthContext";
 
 export default function Login() {
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -14,7 +16,7 @@ export default function Login() {
         password: password.value,
       })
       .then((res) => {
-        console.warn(res.data);
+        login(res.data.token);
         navigate("/home");
       })
       .catch((err) => console.error(err));
