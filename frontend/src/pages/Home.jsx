@@ -1,8 +1,14 @@
 import Cards from "@components/Cards";
 import datas from "@services/datas";
+import axios from "axios";
 import Layout from "./Layout";
 
 export default function Home() {
+  axios
+    .get("http://localhost:5500/api/items", {
+      withCredentials: true,
+    })
+    .then((res) => console.warn(res.data));
   return (
     <Layout>
       <header className="my-10">
