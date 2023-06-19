@@ -2,12 +2,19 @@ const express = require("express");
 
 const router = express.Router();
 
-const itemControllers = require("./controllers/itemControllers");
+const authController = require("./controllers/authController");
 
-router.get("/items", itemControllers.browse);
-router.get("/items/:id", itemControllers.read);
-router.put("/items/:id", itemControllers.edit);
-router.post("/items", itemControllers.add);
-router.delete("/items/:id", itemControllers.destroy);
+/**
+ * Auth
+ *
+ * Nous allons ici, créer nos 2 routes concernant l'authentification d'un user
+ *
+ * /register, est l'endpoint qui permettra d'enregistrer un user
+ * /login, est l'endpoint qui permettre de se log
+ *
+ * Nous allons donc avoir, 2 controllers associés, 1 pour chaque route
+ */
+router.post("/register", authController.register);
+router.post("/login", authController.login);
 
 module.exports = router;
