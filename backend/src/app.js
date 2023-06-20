@@ -2,10 +2,15 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const router = require("./router");
+
+// grâce à ce paquet, je vais pouvoir accéder aux cookies de mon app
 
 const app = express();
 
+// je l'utilise dans le middleware
+app.use(cookieParser());
 // use some application-level middlewares
 app.use(
   cors({

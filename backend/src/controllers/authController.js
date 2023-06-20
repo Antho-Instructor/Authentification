@@ -1,5 +1,6 @@
 const models = require("../models");
 const argon = require("../services/argon");
+const { encodeJWT } = require("../services/jwt");
 
 /**
  *
@@ -79,7 +80,13 @@ const login = async (req, res) => {
 
     // si j'ai un user alors
     if (userLogged) {
-      res.json({ user: userLogged });
+      // res.json({ token: encodeJWT(userLogged) });
+      res
+        .cookie("appjwt", encodeJWT(userLogged), {
+          maxAge: 900000,
+          httpOnly: true,
+        })
+        .json({ userLogged });
     } else {
       res.json({ message: "Oups, error email ou mdp" });
     }

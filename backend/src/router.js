@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 const authController = require("./controllers/authController");
+const isAuth = require("./middleware/authMiddleware");
 
 /**
  * Auth
@@ -17,5 +18,9 @@ const authController = require("./controllers/authController");
 
 router.post("/register", authController.register);
 router.post("/login", authController.login);
+
+router.get("/home", isAuth, (req, res) => {
+  res.send("je sais que tu es loggé");
+});
 
 module.exports = router;
