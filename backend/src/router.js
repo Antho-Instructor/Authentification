@@ -14,6 +14,7 @@ const authController = require("./controllers/authController");
  *
  * Nous allons donc avoir, 2 controllers associés, 1 pour chaque route
  */
+
 router.post("/register", authController.register);
 router.post("/login", authController.login);
 

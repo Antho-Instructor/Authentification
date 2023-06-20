@@ -14,6 +14,16 @@ async function hashPwd(password) {
 async function decryptPwd(password, email) {
   try {
     const [[user]] = await models.user.findByMail(email);
+    /**
+     * user
+     * [[{info}], [élément mysql]]
+     *
+     * [user]
+     * [{info}]
+     *
+     * [[user]] == user[0][0]
+     * {info}
+     */
 
     if (user !== undefined) {
       if (await argon2.verify(user.password, password)) {

@@ -18,7 +18,9 @@ const register = async (req, res) => {
    * celui ci s'arretera pour informer l'utilisateur que cet email existe déjà en DB
    */
   if (isRegistered.length !== 0) {
-    return res.status(403).json("Tu as déjà un compte");
+    return res
+      .status(403)
+      .json({ message: "Cet email existe déjà, connecte toi !" });
   }
 
   // Si je suis ici, c'est que le user n'a pas d'email dans la DB, donc je peux hash le password
@@ -61,17 +63,18 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   try {
     /**
-     * isCorrect (car je n'ai pas d'idée je le rappel)
+     * userLogged (car je n'ai pas d'idée je le rappel)
      * est le retour de ma vérfication de mon password, en effet, `decryptPwd` prend 2 paramètres, le password & l'email;
      * L'email permet d'aller selectionne le bon user pour avoir son MDP
      * Et le mot de passe, permet d'avoir la certitude que celui est bon en le comparant avec celui qui l'a renseigné
      */
+
     const userLogged = await argon.decryptPwd(
       req.body.password,
       req.body.email
     );
 
-    // delete permet de supprimer une clé dans un obj, en locurence, ici, c'est le password
+    // delete permet de supprimer une clé dans un obj, en l'occurrence, ici, c'est le password
     delete userLogged.password;
 
     // si j'ai un user alors
