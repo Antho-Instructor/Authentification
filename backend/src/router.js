@@ -18,6 +18,7 @@ const isAuth = require("./middleware/authMiddleware");
 
 router.post("/register", authController.register);
 router.post("/login", authController.login);
+router.get("/logout", authController.logout);
 
 router.get("/home", isAuth, (req, res) => {
   res.send("je sais que tu es loggé");

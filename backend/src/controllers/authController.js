@@ -83,19 +83,26 @@ const login = async (req, res) => {
       // res.json({ token: encodeJWT(userLogged) });
       res
         .cookie("appjwt", encodeJWT(userLogged), {
-          maxAge: 900000,
           httpOnly: true,
         })
-        .json({ userLogged });
+        .status(200)
+        .json({ message: `Salutation ${userLogged.name}`, ...userLogged });
     } else {
-      res.json({ message: "Oups, error email ou mdp" });
+      res.status(401).json({ message: "Oups, error email ou mdp" });
     }
   } catch (error) {
     res.status(500).json({ message: "oups, error server" });
   }
 };
 
+const logout = (req, res) => {
+  res.clearCookie("appjwt").status(200).json({ message: "User logged out" });
+};
+
+// clearCookie
+
 module.exports = {
   register,
   login,
+  logout,
 };

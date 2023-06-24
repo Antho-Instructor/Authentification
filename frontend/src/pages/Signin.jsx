@@ -1,7 +1,31 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function Signin() {
+  const navigate = useNavigate();
+  const API = `${import.meta.env.VITE_BACKEND_URL}/register`;
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post(API, { ...user })
+      .then((res) => {
+        console.warn(res.data.message);
+        navigate("/");
+      })
+      .catch((err) => console.error(err.response.data.message));
+  };
+
   return (
     <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -17,7 +41,7 @@ export default function Signin() {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form className="space-y-6" action="#" method="POST">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label
                 htmlFor="name"
@@ -27,6 +51,7 @@ export default function Signin() {
               </label>
               <div className="mt-1">
                 <input
+                  onChange={handleChange}
                   id="name"
                   name="name"
                   type="text"
@@ -46,6 +71,7 @@ export default function Signin() {
               </label>
               <div className="mt-1">
                 <input
+                  onChange={handleChange}
                   id="email"
                   name="email"
                   type="email"
@@ -66,6 +92,7 @@ export default function Signin() {
               </label>
               <div className="mt-1">
                 <input
+                  onChange={handleChange}
                   id="password"
                   name="password"
                   type="password"
@@ -78,13 +105,13 @@ export default function Signin() {
             </div>
 
             <div>
-              <Link
+              <button
                 to="/"
                 type="submit"
                 className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               >
                 Go 🚀
-              </Link>
+              </button>
             </div>
           </form>
 

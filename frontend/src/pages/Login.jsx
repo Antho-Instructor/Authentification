@@ -1,7 +1,30 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function Login() {
+  const navigate = useNavigate();
+  const API = `${import.meta.env.VITE_BACKEND_URL}/login`;
+  const [user, setUser] = useState({
+    email: "antho@lebg.com",
+    password: "azerty",
+  });
+
+  const handleChange = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post(API, { ...user }, { withCredentials: true })
+      .then((res) => {
+        console.warn(res.data.message);
+        navigate("/home");
+      })
+      .catch((err) => console.error(err.response.data.message));
+  };
+
   return (
     <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -17,7 +40,7 @@ export default function Login() {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form className="space-y-6" action="#" method="POST">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label
                 htmlFor="email"
@@ -27,7 +50,9 @@ export default function Login() {
               </label>
               <div className="mt-1">
                 <input
+                  onChange={handleChange}
                   id="email"
+                  value={user.email}
                   name="email"
                   type="email"
                   autoComplete="email"
@@ -47,7 +72,9 @@ export default function Login() {
               </label>
               <div className="mt-1">
                 <input
+                  onChange={handleChange}
                   id="password"
+                  value={user.password}
                   name="password"
                   type="password"
                   autoComplete="current-password"
@@ -59,13 +86,13 @@ export default function Login() {
             </div>
 
             <div>
-              <Link
+              <button
                 to="/home"
                 type="submit"
                 className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               >
                 Go 🚀
-              </Link>
+              </button>
             </div>
           </form>
 
